@@ -1,20 +1,14 @@
 spring:
   application:
     name: stats-server
-  config:
-    import: "configserver:"
   cloud:
     config:
-      fail-fast: true
-      retry:
-        max-interval: 6000
-        useRandomPolicy: true
       discovery:
         enabled: true
         service-id: config-server
-
-server:
-  port: 0
+      fail-fast: true
+  config:
+    import: "configserver:"
 
 eureka:
   client:

@@ -1,5 +1,5 @@
 server:
-  port: 0
+  port: 8889
 
 spring:
   application:
@@ -11,9 +11,8 @@ spring:
       server:
         native:
           searchLocations:
-            - classpath:config/core/{application}
-            - classpath:config/stats-service/{application}
-            - classpath:config/infra/{application}
+            classpath:/
+
 eureka:
   client:
     serviceUrl:
