@@ -3,10 +3,12 @@ spring:
     name: stats-server
   cloud:
     config:
-      discovery:
-        enabled: true
-        service-id: config-server
+      uri: http://localhost:8889
       fail-fast: true
+      retry:
+        initial-interval: 2000
+        max-attempts: 20
+        max-interval: 5000
   config:
     import: "configserver:"
 

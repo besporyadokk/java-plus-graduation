@@ -10,8 +10,7 @@ spring:
     config:
       server:
         native:
-          searchLocations:
-            classpath:/
+          searchLocations: classpath:/   # ищем файлы прямо в корне resources
 
 eureka:
   client:

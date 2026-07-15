@@ -3,16 +3,10 @@ spring:
     name: main-service
   cloud:
     config:
-      discovery:
-        enabled: true
-        service-id: config-server
+      uri: http://localhost:8889
       fail-fast: true
-      retry:
-        initial-interval: 1000
-        max-attempts: 10
-        max-interval: 3000
   config:
-    import: "configserver:"
+    import: "optional:configserver:"
 
 eureka:
   client:
