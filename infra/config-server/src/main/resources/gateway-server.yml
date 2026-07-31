@@ -1,0 +1,73 @@
+
+
+
+server:
+  port: 0
+
+spring:
+  application:
+    name: gateway-server
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+      routes:
+        - id: admin-users-route
+          uri: lb://MAIN-SERVICE
+          predicates:
+            - Path=/admin/users/**
+        - id: admin-categories-route
+          uri: lb://MAIN-SERVICE
+          predicates:
+            - Path=/admin/categories/**
+        - id: admin-compilations-route
+          uri: lb://MAIN-SERVICE
+          predicates:
+            - Path=/admin/compilations/**
+        - id: admin-events-route
+          uri: lb://MAIN-SERVICE
+          predicates:
+            - Path=/admin/events/**
+        - id: admin-reviews-route
+          uri: lb://MAIN-SERVICE
+          predicates:
+            - Path=/admin/reviews/**
+        - id: private-events-route
+          uri: lb://MAIN-SERVICE
+          predicates:
+            - Path=/users/*/events/**
+        - id: private-requests-route
+          uri: lb://MAIN-SERVICE
+          predicates:
+            - Path=/users/*/requests/**
+        - id: private-reviews-route
+          uri: lb://MAIN-SERVICE
+          predicates:
+            - Path=/users/*/reviews/**
+        - id: public-categories-route
+          uri: lb://MAIN-SERVICE
+          predicates:
+            - Path=/categories/**
+        - id: public-compilations-route
+          uri: lb://MAIN-SERVICE
+          predicates:
+            - Path=/compilations/**
+        - id: public-events-route
+          uri: lb://MAIN-SERVICE
+          predicates:
+            - Path=/events/**
+        - id: public-reviews-route
+          uri: lb://MAIN-SERVICE
+          predicates:
+            - Path=/reviews/**
+
+management:
+  endpoint:
+    gateway:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway

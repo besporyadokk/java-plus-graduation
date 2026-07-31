@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: stats-server
+  cloud:
+    config:
+      uri: http://localhost:8889
+      fail-fast: true
+      retry:
+        initial-interval: 2000
+        max-attempts: 20
+        max-interval: 5000
+  config:
+    import: "configserver:"
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
