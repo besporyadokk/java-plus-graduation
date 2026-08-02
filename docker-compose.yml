@@ -1,9 +1,8 @@
 version: '3.8'
 
 x-common-variables: &common-variables
-  SPRING_PROFILES_ACTIVE: docker
+  # SPRING_PROFILES_ACTIVE: docker   <-- УДАЛИТЬ ЭТУ СТРОКУ
   EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
-  # КРИТИЧЕСКИ ВАЖНО для Docker: регистрируем сервисы по IP, а не по hostname
   EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
   EUREKA_INSTANCE_INSTANCE_ID: "${COMPOSE_PROJECT_NAME}-${SERVICE_NAME}:${RANDOM}"
   CONFIG_SERVER_URL: http://config-server:8888
@@ -11,7 +10,6 @@ x-common-variables: &common-variables
   SPRING_DATASOURCE_PASSWORD: 12345
 
 services:
-  # --- DISCOVERY SERVER ---
   discovery-server:
     build: ./infra/discovery-server
     container_name: discovery-server
@@ -19,19 +17,17 @@ services:
       - "8761:8761"
     environment:
       SERVICE_NAME: discovery-server
-      EUREKA_INSTANCE_HOSTNAME: discovery-server   # важно!
+      EUREKA_INSTANCE_HOSTNAME: discovery-server
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
       EUREKA_CLIENT_REGISTER_WITH_EUREKA: false
       EUREKA_CLIENT_FETCH_REGISTRY: false
     restart: unless-stopped
 
-  # --- CONFIG SERVER ---
   config-server:
     build: ./infra/config-server
     container_name: config-server
     environment:
-      # КРИТИЧЕСКИ ВАЖНО: config-server должен работать в профиле native, а не docker
-      SPRING_PROFILES_ACTIVE: native
+      SPRING_PROFILES_ACTIVE: native   # оставляем
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/
       EUREKA_INSTANCE_PREFER_IP_ADDRESS: "true"
       SERVICE_NAME: config-server
@@ -217,7 +213,6 @@ services:
         condition: service_started
     restart: unless-stopped
 
-  # --- GATEWAY ---
   gateway-server:
     build:
       context: ./infra/gateway-server
