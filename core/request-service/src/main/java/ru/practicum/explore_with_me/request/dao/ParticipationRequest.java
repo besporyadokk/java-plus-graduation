@@ -3,7 +3,7 @@ package ru.practicum.explore_with_me.request.dao;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import ru.practicum.model.request.RequestStatus;
+import ru.practicum.explore_with_me.interaction_api.model.request.RequestStatus;
 
 import java.time.LocalDateTime;
 

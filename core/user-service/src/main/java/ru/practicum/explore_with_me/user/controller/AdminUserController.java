@@ -8,9 +8,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
-import ru.practicum.model.user.dto.NewUserRequest;
-import ru.practicum.model.user.dto.UserDto;
-import ru.practicum.model.user.dto.UserShortDto;
+import ru.practicum.explore_with_me.interaction_api.model.user.dto.NewUserRequest;
+import ru.practicum.explore_with_me.interaction_api.model.user.dto.UserDto;
+import ru.practicum.explore_with_me.interaction_api.model.user.dto.UserShortDto;
 import ru.practicum.explore_with_me.user.service.UserService;
 
 import java.util.List;

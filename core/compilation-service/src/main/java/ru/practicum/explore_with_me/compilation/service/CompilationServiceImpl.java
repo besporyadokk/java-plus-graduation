@@ -8,12 +8,12 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.explore_with_me.compilation.dao.Compilation;
 import ru.practicum.explore_with_me.compilation.mapper.CompilationMapper;
 import ru.practicum.explore_with_me.compilation.repository.CompilationRepository;
-import ru.practicum.exception.NotFoundException;
-import ru.practicum.model.compilation.dto.CompilationDto;
-import ru.practicum.model.compilation.dto.NewCompilationDto;
-import ru.practicum.model.compilation.dto.UpdateCompilationRequest;
-import ru.practicum.model.event.client.EventServiceClient;
-import ru.practicum.model.event.dto.EventShortDto;
+import ru.practicum.explore_with_me.interaction_api.exception.NotFoundException;
+import ru.practicum.explore_with_me.interaction_api.model.compilation.dto.CompilationDto;
+import ru.practicum.explore_with_me.interaction_api.model.compilation.dto.NewCompilationDto;
+import ru.practicum.explore_with_me.interaction_api.model.compilation.dto.UpdateCompilationRequest;
+import ru.practicum.explore_with_me.interaction_api.model.event.client.EventServiceClient;
+import ru.practicum.explore_with_me.interaction_api.model.event.dto.EventShortDto;
 
 import java.util.*;
 import java.util.function.Function;

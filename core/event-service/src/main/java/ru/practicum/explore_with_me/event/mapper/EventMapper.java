@@ -4,12 +4,12 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import ru.practicum.explore_with_me.event.dao.Event;
 import ru.practicum.explore_with_me.event.dao.Location;
-import ru.practicum.model.category.dto.CategoryDto;
-import ru.practicum.model.event.dto.EventFullDto;
-import ru.practicum.model.event.dto.EventShortDto;
-import ru.practicum.model.event.dto.LocationDto;
-import ru.practicum.model.event.dto.NewEventDto;
-import ru.practicum.model.user.dto.UserShortDto;
+import ru.practicum.explore_with_me.interaction_api.model.category.dto.CategoryDto;
+import ru.practicum.explore_with_me.interaction_api.model.event.dto.EventFullDto;
+import ru.practicum.explore_with_me.interaction_api.model.event.dto.EventShortDto;
+import ru.practicum.explore_with_me.interaction_api.model.event.dto.LocationDto;
+import ru.practicum.explore_with_me.interaction_api.model.event.dto.NewEventDto;
+import ru.practicum.explore_with_me.interaction_api.model.user.dto.UserShortDto;
 
 @Mapper(componentModel = "spring")
 public interface EventMapper {

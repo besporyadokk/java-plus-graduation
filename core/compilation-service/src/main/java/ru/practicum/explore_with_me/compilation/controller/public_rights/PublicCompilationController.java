@@ -6,7 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explore_with_me.compilation.service.CompilationService;
-import ru.practicum.model.compilation.dto.CompilationDto;
+import ru.practicum.explore_with_me.interaction_api.model.compilation.dto.CompilationDto;
 
 import java.util.List;
 

@@ -8,11 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.explore_with_me.category.dao.Category;
 import ru.practicum.explore_with_me.category.mapper.CategoryMapper;
 import ru.practicum.explore_with_me.category.repository.CategoryRepository;
-import ru.practicum.exception.ConflictException;
-import ru.practicum.exception.NotFoundException;
-import ru.practicum.model.category.dto.CategoryDto;
-import ru.practicum.model.category.dto.NewCategoryDto;
-import ru.practicum.model.event.client.EventServiceClient;
+import ru.practicum.explore_with_me.interaction_api.exception.ConflictException;
+import ru.practicum.explore_with_me.interaction_api.exception.NotFoundException;
+import ru.practicum.explore_with_me.interaction_api.model.category.dto.CategoryDto;
+import ru.practicum.explore_with_me.interaction_api.model.category.dto.NewCategoryDto;
+import ru.practicum.explore_with_me.interaction_api.model.event.client.EventServiceClient;
 
 import java.util.List;
 import java.util.stream.Collectors;

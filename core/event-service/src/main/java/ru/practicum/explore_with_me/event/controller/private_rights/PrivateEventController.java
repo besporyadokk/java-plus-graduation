@@ -8,10 +8,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explore_with_me.event.service.EventService;
-import ru.practicum.model.event.dto.EventFullDto;
-import ru.practicum.model.event.dto.EventShortDto;
-import ru.practicum.model.event.dto.NewEventDto;
-import ru.practicum.model.event.dto.UpdateEventUserRequest;
+import ru.practicum.explore_with_me.interaction_api.model.event.dto.EventFullDto;
+import ru.practicum.explore_with_me.interaction_api.model.event.dto.EventShortDto;
+import ru.practicum.explore_with_me.interaction_api.model.event.dto.NewEventDto;
+import ru.practicum.explore_with_me.interaction_api.model.event.dto.UpdateEventUserRequest;
 
 import java.util.List;
 

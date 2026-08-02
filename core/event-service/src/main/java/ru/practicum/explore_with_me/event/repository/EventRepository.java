@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import ru.practicum.explore_with_me.event.dao.Event;
-import ru.practicum.model.event.EventState;
+import ru.practicum.explore_with_me.interaction_api.model.event.EventState;
 
 import java.time.LocalDateTime;
 import java.util.List;

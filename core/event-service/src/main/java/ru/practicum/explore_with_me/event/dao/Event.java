@@ -2,7 +2,7 @@ package ru.practicum.explore_with_me.event.dao;
 
 import jakarta.persistence.*;
 import lombok.*;
-import ru.practicum.model.event.EventState;
+import ru.practicum.explore_with_me.interaction_api.model.event.EventState;
 
 import java.time.LocalDateTime;
 

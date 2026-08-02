@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 import ru.practicum.explore_with_me.category.service.CategoryService;
-import ru.practicum.model.category.dto.CategoryDto;
-import ru.practicum.model.category.dto.NewCategoryDto;
+import ru.practicum.explore_with_me.interaction_api.model.category.dto.CategoryDto;
+import ru.practicum.explore_with_me.interaction_api.model.category.dto.NewCategoryDto;
 
 import java.util.List;
 

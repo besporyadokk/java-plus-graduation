@@ -8,8 +8,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explore_with_me.event.service.EventService;
-import ru.practicum.model.event.dto.EventFullDto;
-import ru.practicum.model.event.dto.UpdateEventAdminRequest;
+import ru.practicum.explore_with_me.interaction_api.model.event.dto.EventFullDto;
+import ru.practicum.explore_with_me.interaction_api.model.event.dto.UpdateEventAdminRequest;
 
 import java.time.LocalDateTime;
 import java.util.List;

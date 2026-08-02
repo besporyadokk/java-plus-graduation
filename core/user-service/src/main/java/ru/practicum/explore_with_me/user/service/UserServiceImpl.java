@@ -6,11 +6,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.explore_with_me.user.dao.User;
-import ru.practicum.exception.ConflictException;
-import ru.practicum.exception.NotFoundException;
-import ru.practicum.model.user.dto.NewUserRequest;
-import ru.practicum.model.user.dto.UserDto;
-import ru.practicum.model.user.dto.UserShortDto;
+import ru.practicum.explore_with_me.interaction_api.exception.ConflictException;
+import ru.practicum.explore_with_me.interaction_api.exception.NotFoundException;
+import ru.practicum.explore_with_me.interaction_api.model.user.dto.NewUserRequest;
+import ru.practicum.explore_with_me.interaction_api.model.user.dto.UserDto;
+import ru.practicum.explore_with_me.interaction_api.model.user.dto.UserShortDto;
 import ru.practicum.explore_with_me.user.mapper.UserMapper;
 import ru.practicum.explore_with_me.user.repository.UserRepository;
 

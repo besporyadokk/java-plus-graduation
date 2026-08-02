@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import ru.practicum.model.request.RequestStatus;
+import ru.practicum.explore_with_me.interaction_api.model.request.RequestStatus;
 import ru.practicum.explore_with_me.request.dao.ParticipationRequest;
 
 import java.util.List;

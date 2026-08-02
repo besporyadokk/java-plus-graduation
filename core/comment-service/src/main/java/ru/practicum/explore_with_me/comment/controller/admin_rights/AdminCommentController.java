@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explore_with_me.comment.service.CommentService;
-import ru.practicum.model.comment.dto.CommentDto;
+import ru.practicum.explore_with_me.interaction_api.model.comment.dto.CommentDto;
 
 import java.util.List;
 

@@ -2,7 +2,7 @@ package ru.practicum.explore_with_me.event.service;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.data.domain.Pageable;
-import ru.practicum.model.event.dto.*;
+import ru.practicum.explore_with_me.interaction_api.model.event.dto.*;
 
 import java.time.LocalDateTime;
 import java.util.List;

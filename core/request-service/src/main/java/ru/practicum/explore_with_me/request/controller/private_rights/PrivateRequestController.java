@@ -6,10 +6,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.model.request.RequestStatus;
-import ru.practicum.model.request.dto.EventRequestStatusUpdateRequest;
-import ru.practicum.model.request.dto.EventRequestStatusUpdateResult;
-import ru.practicum.model.request.dto.ParticipationRequestDto;
+import ru.practicum.explore_with_me.interaction_api.model.request.RequestStatus;
+import ru.practicum.explore_with_me.interaction_api.model.request.dto.EventRequestStatusUpdateRequest;
+import ru.practicum.explore_with_me.interaction_api.model.request.dto.EventRequestStatusUpdateResult;
+import ru.practicum.explore_with_me.interaction_api.model.request.dto.ParticipationRequestDto;
 import ru.practicum.explore_with_me.request.service.RequestService;
 
 import java.util.List;
