@@ -156,16 +156,15 @@ public class CommentServiceImpl implements CommentService {
         }
         if (users != null && !users.isEmpty()) {
             spec = spec.and((root, query, criteriaBuilder) ->
-                    root.get("author").get("id").in(users));
+                    root.get("authorId").in(users));   // исправлено
         }
         if (events != null && !events.isEmpty()) {
             spec = spec.and((root, query, criteriaBuilder) ->
-                    root.get("event").get("id").in(events));
+                    root.get("eventId").in(events));    // исправлено
         }
         Pageable pageable = PageRequest.of(from / size, size);
         List<Comment> comments = commentRepository.findAll(spec, pageable).toList();
-        return comments
-                .stream()
+        return comments.stream()
                 .map(commentMapper::toCommentDto)
                 .toList();
     }

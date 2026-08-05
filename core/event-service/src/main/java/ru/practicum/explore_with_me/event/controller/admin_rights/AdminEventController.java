@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explore_with_me.event.service.EventService;
+import ru.practicum.explore_with_me.interaction_api.model.event.dto.AdminEventSearchParams;
 import ru.practicum.explore_with_me.interaction_api.model.event.dto.EventFullDto;
 import ru.practicum.explore_with_me.interaction_api.model.event.dto.UpdateEventAdminRequest;
 
@@ -31,8 +32,17 @@ public class AdminEventController {
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeEnd,
             @RequestParam(defaultValue = "0") int from,
             @RequestParam(defaultValue = "10") int size) {
-        return eventService.getEventsForAdmin(users, states, categories, rangeStart, rangeEnd,
-                PageRequest.of(from / size, size));
+
+        AdminEventSearchParams params = AdminEventSearchParams.builder()
+                .users(users)
+                .states(states)
+                .categories(categories)
+                .rangeStart(rangeStart)
+                .rangeEnd(rangeEnd)
+                .pageable(PageRequest.of(from / size, size))
+                .build();
+
+        return eventService.getEventsForAdmin(params);
     }
 
     @PatchMapping("/{eventId}")

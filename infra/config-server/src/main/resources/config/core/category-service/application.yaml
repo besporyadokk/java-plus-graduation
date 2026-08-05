@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://main-service-db:5432/main
+    url: jdbc:postgresql://core-db:5432/categorydb
     username: dbuser
     password: 12345
     driver-class-name: org.postgresql.Driver

@@ -26,7 +26,7 @@ public interface EventMapper {
 
     @Mapping(target = "category.id", source = "categoryId")
     @Mapping(target = "initiator.id", source = "initiatorId")
-    EventShortDto toEventShortDtoв(Event event);
+    EventShortDto toEventShortDto(Event event);
 
     default Location toLocation(LocationDto dto) {
         if (dto == null) {
@@ -82,8 +82,7 @@ public interface EventMapper {
         dto.setId(event.getId());
         dto.setCategory(categoryDto);
         dto.setInitiator(userShortDto);
-        dto.setAnnotation(event.getAnnotation());
-        dto.setConfirmedRequests(event.getConfirmedRequests());
+        dto.setAnnotation(event.getAnnotation());;
         dto.setEventDate(event.getEventDate());
         dto.setPaid(event.getPaid());
         dto.setTitle(event.getTitle());

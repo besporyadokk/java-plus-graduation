@@ -3,8 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://main-service-db:5432/main
-    username: dbuser
+    url: jdbc:postgresql://core-db:5432/userdb
     password: 12345
     driver-class-name: org.postgresql.Driver
 

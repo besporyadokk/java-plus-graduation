@@ -42,8 +42,19 @@ public class CompilationServiceImpl implements CompilationService {
             return List.of();
         }
 
-        Set<Long> allEventIds = compilations.stream()
-                .flatMap(c -> c.getEventsId().stream())
+        List<Long> compilationIds = compilations.stream()
+                .map(Compilation::getId)
+                .collect(Collectors.toList());
+
+        List<Object[]> rawData = compilationRepository.findAllEventsIdByCompilationIds(compilationIds);
+        Map<Long, Set<Long>> eventsIdMap = rawData.stream()
+                .collect(Collectors.groupingBy(
+                        arr -> (Long) arr[0],
+                        Collectors.mapping(arr -> (Long) arr[1], Collectors.toSet())
+                ));
+
+        Set<Long> allEventIds = eventsIdMap.values().stream()
+                .flatMap(Set::stream)
                 .collect(Collectors.toSet());
 
         Map<Long, EventShortDto> eventMap = allEventIds.isEmpty()
@@ -53,7 +64,7 @@ public class CompilationServiceImpl implements CompilationService {
 
         return compilations.stream()
                 .map(compilation -> {
-                    Set<EventShortDto> events = compilation.getEventsId().stream()
+                    Set<EventShortDto> events = eventsIdMap.getOrDefault(compilation.getId(), Set.of()).stream()
                             .map(eventMap::get)
                             .filter(Objects::nonNull)
                             .collect(Collectors.toSet());

@@ -13,7 +13,7 @@ spring:
     gateway:
       discovery:
         locator:
-          enabled: true  # Включает автоматическое создание маршрутов для сервисов, зарегистрированных в Eureka
+          enabled: true  # автоматическое создание маршрутов для зарегистрированных сервисов
 
       routes:
         # Маршруты для Admin контроллеров
@@ -38,12 +38,12 @@ spring:
           filters:
             - RewritePath=/admin/events/(?<segment>.*), /admin/events/$\{segment}
 
-        - id: admin-reviews-route
-          uri: lb://review-service
+        - id: admin-comments-route                    # исправлено: review → comment
+          uri: lb://comment-service
           predicates:
-            - Path=/admin/reviews/**
+            - Path=/admin/comments/**                 # исправлено: reviews → comments
           filters:
-            - RewritePath=/admin/reviews/(?<segment>.*), /admin/reviews/$\{segment}
+            - RewritePath=/admin/comments/(?<segment>.*), /admin/comments/$\{segment}
 
         - id: admin-users-route
           uri: lb://user-service
@@ -58,19 +58,19 @@ spring:
           predicates:
             - Path=/users/{userId}/requests/**, /users/{userId}/events/{eventId}/requests
           filters:
-            - RewritePath=/users/(?<userId>\d+)/(?<segment>.*), /users/$\{userId}/$\{segment}
+            - RewritePath=/users/(?<userId>\\d+)/(?<segment>.*), /users/$\{userId}/$\{segment}
 
         - id: private-events-route
           uri: lb://event-service
           predicates:
             - Path=/users/{userId}/events/**
 
-        - id: private-reviews-route
-          uri: lb://review-service
+        - id: private-comments-route                   # исправлено: review → comment
+          uri: lb://comment-service
           predicates:
-            - Path=/users/{userId}/reviews/**
+            - Path=/users/{userId}/comments/**        # исправлено: reviews → comments
           filters:
-            - RewritePath=/users/(?<userId>\\d+)/reviews/(?<segment>.*), /users/$\{userId}/reviews/$\{segment}
+            - RewritePath=/users/(?<userId>\\d+)/comments/(?<segment>.*), /users/$\{userId}/comments/$\{segment}
 
         # Маршруты для Public контроллеров
         - id: public-categories-route
@@ -94,10 +94,18 @@ spring:
           filters:
             - RewritePath=/events/(?<segment>.*), /events/$\{segment}
 
-        - id: public-reviews-route
-          uri: lb://review-service
+        - id: public-comments-route                    # исправлено: review → comment
+          uri: lb://comment-service
           predicates:
-            - Path=/reviews/**
+            - Path=/comments/**                       # исправлено: reviews → comments
           filters:
-            - RewritePath=/reviews/(?<segment>.*), /reviews/$\{segment}
+            - RewritePath=/comments/(?<segment>.*), /comments/$\{segment}
 
+management:
+  endpoint:
+    gateway:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway

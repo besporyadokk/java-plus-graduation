@@ -29,9 +29,6 @@ public class Event {
     @Transient
     private Long views;
 
-    @Column(name = "confirmed_requests")
-    Integer confirmedRequests;
-
     @Column(name = "created_on", nullable = false)
     LocalDateTime createdOn;
 

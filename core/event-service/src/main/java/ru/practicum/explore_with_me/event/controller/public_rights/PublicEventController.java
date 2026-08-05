@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.explore_with_me.event.service.EventService;
 import ru.practicum.explore_with_me.interaction_api.model.event.dto.EventFullDto;
 import ru.practicum.explore_with_me.interaction_api.model.event.dto.EventShortDto;
+import ru.practicum.explore_with_me.interaction_api.model.event.dto.PublicEventSearchParams;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,7 +22,7 @@ import java.util.Set;
 @RequestMapping("/events")
 @RequiredArgsConstructor
 public class PublicEventController {
-    
+
     private final EventService eventService;
 
     @GetMapping
@@ -36,8 +37,19 @@ public class PublicEventController {
             @PositiveOrZero @RequestParam(defaultValue = "0") int from,
             @Positive @RequestParam(defaultValue = "10") int size,
             HttpServletRequest httpRequest) {
-        return eventService.getEventsPublic(text, categories, paid, rangeStart, rangeEnd,
-                onlyAvailable, sort, PageRequest.of(from / size, size), httpRequest);
+
+        PublicEventSearchParams params = PublicEventSearchParams.builder()
+                .text(text)
+                .categories(categories)
+                .paid(paid)
+                .rangeStart(rangeStart)
+                .rangeEnd(rangeEnd)
+                .onlyAvailable(onlyAvailable)
+                .sort(sort)
+                .pageable(PageRequest.of(from / size, size))
+                .build();
+
+        return eventService.getEventsPublic(params, httpRequest);
     }
 
     @GetMapping("/{id}")

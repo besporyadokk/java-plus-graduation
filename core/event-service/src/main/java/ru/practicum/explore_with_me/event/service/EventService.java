@@ -10,10 +10,7 @@ import java.util.Set;
 
 public interface EventService {
 
-    List<EventShortDto> getEventsPublic(String text, List<Long> categories, Boolean paid,
-                                        LocalDateTime rangeStart, LocalDateTime rangeEnd,
-                                        Boolean onlyAvailable, String sort, Pageable pageable,
-                                        HttpServletRequest httpServletRequest);
+    List<EventShortDto> getEventsPublic(PublicEventSearchParams params, HttpServletRequest request);
 
     EventFullDto getEventById(Long id, HttpServletRequest httpServletRequest);
 
@@ -35,9 +32,7 @@ public interface EventService {
 
     EventFullDto updateEventByUser(Long userId, Long eventId, UpdateEventUserRequest updateRequest);
 
-    List<EventFullDto> getEventsForAdmin(List<Long> users, List<String> states,
-                                         List<Long> categories, LocalDateTime rangeStart,
-                                         LocalDateTime rangeEnd, Pageable pageable);
+    List<EventFullDto> getEventsForAdmin(AdminEventSearchParams params);
 
     EventFullDto updateEventByAdmin(Long eventId, UpdateEventAdminRequest updateRequest);
 }
