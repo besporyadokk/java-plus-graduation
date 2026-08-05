@@ -17,16 +17,12 @@ public interface EventMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "categoryId", ignore = true)
     @Mapping(target = "initiatorId", ignore = true)
-    @Mapping(target = "confirmedRequests", ignore = true)
     @Mapping(target = "createdOn", ignore = true)
     @Mapping(target = "publishedOn", ignore = true)
     @Mapping(target = "state", ignore = true)
     @Mapping(target = "views", ignore = true)
-    Event toEvent(NewEventDto newEventDto);
 
-    @Mapping(target = "category.id", source = "categoryId")
-    @Mapping(target = "initiator.id", source = "initiatorId")
-    EventShortDto toEventShortDto(Event event);
+    Event toEvent(NewEventDto newEventDto);
 
     default Location toLocation(LocationDto dto) {
         if (dto == null) {
@@ -48,11 +44,7 @@ public interface EventMapper {
         return locationDto;
     }
 
-    default EventFullDto toEventFullDto(
-            Event event,
-            CategoryDto categoryDto,
-            UserShortDto userShortDto
-    ) {
+    default EventFullDto toEventFullDto(Event event, CategoryDto categoryDto, UserShortDto userShortDto) {
         EventFullDto dto = new EventFullDto();
         dto.setId(event.getId());
         dto.setAnnotation(event.getAnnotation());
@@ -64,30 +56,24 @@ public interface EventMapper {
         dto.setParticipantLimit(event.getParticipantLimit());
         dto.setRequestModeration(event.getRequestModeration());
         dto.setTitle(event.getTitle());
-
         dto.setState(event.getState() != null ? event.getState().toString() : null);
-
         dto.setCategory(categoryDto);
         dto.setInitiator(userShortDto);
-
         if (event.getLocation() != null) {
             dto.setLocation(toLocationDto(event.getLocation()));
         }
-
         return dto;
     }
 
     default EventShortDto toEventShortDto(Event event, CategoryDto categoryDto, UserShortDto userShortDto) {
         EventShortDto dto = new EventShortDto();
         dto.setId(event.getId());
+        dto.setAnnotation(event.getAnnotation());
         dto.setCategory(categoryDto);
         dto.setInitiator(userShortDto);
-        dto.setAnnotation(event.getAnnotation());;
         dto.setEventDate(event.getEventDate());
         dto.setPaid(event.getPaid());
         dto.setTitle(event.getTitle());
-        dto.setViews(event.getViews());
-
         return dto;
     }
 }
