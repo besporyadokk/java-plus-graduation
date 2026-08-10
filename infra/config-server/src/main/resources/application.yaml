@@ -1,5 +1,5 @@
 server:
-  port: 8889
+  port: 0
 
 spring:
   application:
@@ -10,7 +10,11 @@ spring:
     config:
       server:
         native:
-          searchLocations: classpath:/   # ищем файлы прямо в корне resources
+          searchLocations:
+            - classpath:config/core/{application}
+            - classpath:config/stats/{application}
+            - classpath:config/stats/telemetry/{application}
+            - classpath:config/infra/{application}
 
 eureka:
   client:
@@ -21,4 +25,4 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info,gateway
+        include: health,info
