@@ -44,12 +44,10 @@ public class EventSimilaritiesProcessor implements Runnable {
             log.error("Ошибка во время обработки событий", e);
         } finally {
             try {
-                consumer.commitSync();
-            } finally {
-                log.info("Закрываем консьюмер");
                 consumer.close();
+            } catch (Exception e) {
+                log.error("Ошибка при закрытии консьюмера", e);
             }
         }
     }
-
 }

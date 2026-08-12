@@ -11,6 +11,9 @@ import ru.practicum.ewm.stats.proto.SimilarEventsRequestProto;
 import ru.practicum.ewm.stats.proto.UserPredictionsRequestProto;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -41,11 +44,31 @@ public class RecommendationsServiceImpl implements RecommendationsService {
 
     @Override
     public List<RecommendedEventProto> getRecommendationsForUser(final UserPredictionsRequestProto request) {
-        return similarityRepository.getSimilarEventIdsForUser(request.getUserId(), Limit.of((int) request.getMaxResults())).stream()
+        List<Long> candidateIds = similarityRepository.getSimilarEventIdsForUser(
+                request.getUserId(),
+                Limit.of((int) request.getMaxResults())
+        );
+
+        if (candidateIds.isEmpty()) {
+            return List.of();
+        }
+
+
+        List<Object[]> firstPart = similarityRepository.calculateRatingsForUserFirst(request.getUserId(), candidateIds);
+        List<Object[]> secondPart = similarityRepository.calculateRatingsForUserSecond(request.getUserId(), candidateIds);
+
+        Map<Long, Double> ratingMap = Stream.concat(firstPart.stream(), secondPart.stream())
+                .collect(Collectors.toMap(
+                        row -> (Long) row[0],
+                        row -> (Double) row[1],
+                        Double::sum
+                ));
+
+        return candidateIds.stream()
                 .map(eventId -> RecommendedEventProto.newBuilder()
                         .setEventId(eventId)
-                        .setScore(similarityRepository.calculateRating(request.getUserId(), eventId).orElse(0D))
+                        .setScore(ratingMap.getOrDefault(eventId, 0D))
                         .build())
-                .toList();
+                .collect(Collectors.toList());
     }
 }

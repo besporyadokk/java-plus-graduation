@@ -3,7 +3,7 @@ server:
 
 spring:
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
   jpa:
     hibernate:
       ddl-auto: create-drop
@@ -14,10 +14,10 @@ spring:
         format_sql: true
     show-sql: false
   datasource:
-    url: jdbc:postgresql://localhost:5433/stats
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://stats-db:5432/analyzerdb}
     driver-class-name: org.postgresql.Driver
-    username: postgres
-    password: postgres
+    username: ${SPRING_DATASOURCE_USERNAME:dbuser}
+    password: ${SPRING_DATASOURCE_PASSWORD:12345}
 
 grpc:
   server:
@@ -26,20 +26,22 @@ grpc:
 analyzer:
   kafka-consumer-actions:
     properties:
-      bootstrap.servers: localhost:9092
+      bootstrap.servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
       key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value.deserializer: ru.practicum.avro.deserializer.UserActionDeserializer
       client.id: analyzer
       group.id: analyzer-actions-group
+      enable.auto.commit: false
     topic: stats.user-actions.v1
     timeout: 10000
   kafka-consumer-similarity:
     properties:
-      bootstrap.servers: localhost:9092
+      bootstrap.servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
       key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value.deserializer: ru.practicum.avro.deserializer.EventSimilarityDeserializer
       client.id: analyzer
       group.id: analyzer-similarity-group
+      enable.auto.commit: false
     topic: stats.events-similarity.v1
     timeout: 10000
 

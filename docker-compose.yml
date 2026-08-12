@@ -43,7 +43,7 @@ services:
       - "5432:5432"
     volumes:
       - stats-db-data:/var/lib/postgresql/data
-      - ./stats-db-init:/docker-entrypoint-initdb.d   # добавлено для создания analyzerdb
+      - ./stats-db-init:/docker-entrypoint-initdb.d
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U dbuser -d stats"]
       interval: 10s
@@ -88,7 +88,6 @@ services:
         condition: service_started
     restart: unless-stopped
 
-  # --- CORE SERVICES ---
   user-service:
     build:
       context: ./core/user-service
@@ -241,7 +240,9 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
     healthcheck:
@@ -263,9 +264,10 @@ services:
       "
     restart: "no"
 
-  # --- TELEMETRY SERVICES ---
   collector:
-    build: ./stats/telemetry/collector
+    build:
+      context: ./stats-service/telemetry/collector
+      dockerfile: Dockerfile
     container_name: collector
     environment:
       <<: *common-variables
@@ -281,7 +283,9 @@ services:
     restart: unless-stopped
 
   aggregator:
-    build: ./stats/telemetry/aggregator
+    build:
+      context: ./stats-service/telemetry/aggregator
+      dockerfile: Dockerfile
     container_name: aggregator
     environment:
       <<: *common-variables
@@ -297,7 +301,9 @@ services:
     restart: unless-stopped
 
   analyzer:
-    build: ./stats/telemetry/analyzer
+    build:
+      context: ./stats-service/telemetry/analyzer
+      dockerfile: Dockerfile
     container_name: analyzer
     environment:
       <<: *common-variables

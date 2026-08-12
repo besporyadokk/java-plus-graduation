@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface SimilarityRepository extends JpaRepository<Similarity, Long> {
+
     Optional<Similarity> findByEventId1AndEventId2(Long eventId1, Long eventId2);
 
     @Query("""
@@ -66,4 +67,25 @@ public interface SimilarityRepository extends JpaRepository<Similarity, Long> {
              WHERE :eventId IN (s.eventId1, s.eventId2)
             """)
     Optional<Double> calculateRating(@Param("userId") Long userId, @Param("eventId") Long eventId);
+
+
+    @Query("""
+            SELECT s.eventId1, 
+                   (SUM(i.rating * s.similarity) / SUM(s.similarity)) AS score
+              FROM Similarity s
+              JOIN Interaction i ON i.eventId = s.eventId2
+             WHERE s.eventId1 IN :eventIds AND i.userId = :userId
+             GROUP BY s.eventId1
+            """)
+    List<Object[]> calculateRatingsForUserFirst(@Param("userId") Long userId, @Param("eventIds") List<Long> eventIds);
+
+    @Query("""
+            SELECT s.eventId2, 
+                   (SUM(i.rating * s.similarity) / SUM(s.similarity)) AS score
+              FROM Similarity s
+              JOIN Interaction i ON i.eventId = s.eventId1
+             WHERE s.eventId2 IN :eventIds AND i.userId = :userId
+             GROUP BY s.eventId2
+            """)
+    List<Object[]> calculateRatingsForUserSecond(@Param("userId") Long userId, @Param("eventIds") List<Long> eventIds);
 }

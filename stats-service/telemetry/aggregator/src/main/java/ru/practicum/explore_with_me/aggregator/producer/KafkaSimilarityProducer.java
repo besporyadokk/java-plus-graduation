@@ -6,8 +6,6 @@ import org.springframework.stereotype.Component;
 import ru.practicum.ewm.stats.avro.EventSimilarityAvro;
 import ru.practicum.explore_with_me.aggregator.producer.config.KafkaProducerConfig;
 
-import java.time.Instant;
-
 @Component
 public class KafkaSimilarityProducer implements AutoCloseable {
     private final KafkaProducer<String, EventSimilarityAvro> kafkaProducer;
@@ -18,9 +16,9 @@ public class KafkaSimilarityProducer implements AutoCloseable {
         this.topic = producerConfig.getTopic();
     }
 
-    public void send(EventSimilarityAvro event, Instant timestamp) {
-        ProducerRecord<String, EventSimilarityAvro> producerRecord = new ProducerRecord<>(topic, event);
-
+    public void send(EventSimilarityAvro event, long timestamp) {
+        ProducerRecord<String, EventSimilarityAvro> producerRecord =
+                new ProducerRecord<>(topic, null, timestamp, null, event);
         kafkaProducer.send(producerRecord);
     }
 

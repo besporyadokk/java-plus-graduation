@@ -47,21 +47,22 @@ public class UserActionConsumer {
         } finally {
             try {
                 producer.flush();
-                consumer.commitSync();
-            } finally {
-                log.info("Закрываем консьюмер");
-                consumer.close();
-                log.info("Закрываем продюсер");
                 producer.close();
+            } catch (Exception e) {
+                log.error("Ошибка при закрытии продюсера", e);
+            }
+            try {
+                consumer.close();
+            } catch (Exception e) {
+                log.error("Ошибка при закрытии консьюмера", e);
             }
         }
     }
 
-    private void handleRecord(ConsumerRecord<String, UserActionAvro> record) throws InterruptedException {
+    private void handleRecord(ConsumerRecord<String, UserActionAvro> record) {
         eventSimilarityStorage.getUpdatedSimilarities(record.value()).forEach(
-                event -> producer.send(event, Instant.now())
+                event -> producer.send(event, record.timestamp())
         );
         producer.flush();
     }
-
 }
