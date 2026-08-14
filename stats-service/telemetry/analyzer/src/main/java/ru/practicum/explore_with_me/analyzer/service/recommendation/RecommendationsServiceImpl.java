@@ -10,6 +10,7 @@ import ru.practicum.ewm.stats.proto.RecommendedEventProto;
 import ru.practicum.ewm.stats.proto.SimilarEventsRequestProto;
 import ru.practicum.ewm.stats.proto.UserPredictionsRequestProto;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -53,22 +54,35 @@ public class RecommendationsServiceImpl implements RecommendationsService {
             return List.of();
         }
 
+        List<Object[]> firstPart = similarityRepository.calculateRatingSumsForUserFirst(request.getUserId(), candidateIds);
+        List<Object[]> secondPart = similarityRepository.calculateRatingSumsForUserSecond(request.getUserId(), candidateIds);
 
-        List<Object[]> firstPart = similarityRepository.calculateRatingsForUserFirst(request.getUserId(), candidateIds);
-        List<Object[]> secondPart = similarityRepository.calculateRatingsForUserSecond(request.getUserId(), candidateIds);
 
-        Map<Long, Double> ratingMap = Stream.concat(firstPart.stream(), secondPart.stream())
-                .collect(Collectors.toMap(
-                        row -> (Long) row[0],
-                        row -> (Double) row[1],
-                        Double::sum
-                ));
+        Map<Long, RatingAccumulator> accByEvent = new HashMap<>();
+        Stream.concat(firstPart.stream(), secondPart.stream()).forEach(row -> {
+            Long eventId = (Long) row[0];
+            double numerator = (Double) row[1];
+            double denominator = (Double) row[2];
+            accByEvent.merge(eventId, new RatingAccumulator(numerator, denominator), RatingAccumulator::plus);
+        });
 
         return candidateIds.stream()
-                .map(eventId -> RecommendedEventProto.newBuilder()
-                        .setEventId(eventId)
-                        .setScore(ratingMap.getOrDefault(eventId, 0D))
-                        .build())
+                .map(eventId -> {
+                    RatingAccumulator acc = accByEvent.get(eventId);
+                    double score = (acc == null || acc.denominator() == 0)
+                            ? 0D
+                            : acc.numerator() / acc.denominator();
+                    return RecommendedEventProto.newBuilder()
+                            .setEventId(eventId)
+                            .setScore(score)
+                            .build();
+                })
                 .collect(Collectors.toList());
+    }
+
+    private record RatingAccumulator(double numerator, double denominator) {
+        RatingAccumulator plus(RatingAccumulator other) {
+            return new RatingAccumulator(numerator + other.numerator(), denominator + other.denominator());
+        }
     }
 }

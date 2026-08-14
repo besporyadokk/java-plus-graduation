@@ -70,22 +70,24 @@ public interface SimilarityRepository extends JpaRepository<Similarity, Long> {
 
 
     @Query("""
-            SELECT s.eventId1, 
-                   (SUM(i.rating * s.similarity) / SUM(s.similarity)) AS score
+            SELECT s.eventId1,
+                   SUM(i.rating * s.similarity) AS numerator,
+                   SUM(s.similarity) AS denominator
               FROM Similarity s
               JOIN Interaction i ON i.eventId = s.eventId2
              WHERE s.eventId1 IN :eventIds AND i.userId = :userId
              GROUP BY s.eventId1
             """)
-    List<Object[]> calculateRatingsForUserFirst(@Param("userId") Long userId, @Param("eventIds") List<Long> eventIds);
+    List<Object[]> calculateRatingSumsForUserFirst(@Param("userId") Long userId, @Param("eventIds") List<Long> eventIds);
 
     @Query("""
-            SELECT s.eventId2, 
-                   (SUM(i.rating * s.similarity) / SUM(s.similarity)) AS score
+            SELECT s.eventId2,
+                   SUM(i.rating * s.similarity) AS numerator,
+                   SUM(s.similarity) AS denominator
               FROM Similarity s
               JOIN Interaction i ON i.eventId = s.eventId1
              WHERE s.eventId2 IN :eventIds AND i.userId = :userId
              GROUP BY s.eventId2
             """)
-    List<Object[]> calculateRatingsForUserSecond(@Param("userId") Long userId, @Param("eventIds") List<Long> eventIds);
+    List<Object[]> calculateRatingSumsForUserSecond(@Param("userId") Long userId, @Param("eventIds") List<Long> eventIds);
 }
